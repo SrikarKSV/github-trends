@@ -30,7 +30,6 @@ exports.handler = async (event) => {
       )}/network/members.${repoName}`;
 
       const repoLink = `https://github.com/${author}/${repoName}`;
-      const authorLink = `https://github.com/${author}`;
       const description = active.find('p').text().trim() || null;
       const language =
         active.find('[itemprop=programmingLanguage]').text().trim() || null;
@@ -45,23 +44,33 @@ exports.handler = async (event) => {
         0
       );
 
-      let contributorsImages = active
-        .find('[data-hovercard-type="user"]')
-        .toArray();
-      contributorsImages = contributorsImages.map(
-        (img) => $(img).find('img').attr('src').split('?')[0]
-      );
+      let authorImg = '';
+
+      let contributors = active.find('[data-hovercard-type="user"]').toArray();
+      contributors = contributors
+        .map((contributor, index) => {
+          if (index === 0) {
+            authorImg = $(contributor).find('img').attr('src').split('?')[0];
+            return null;
+          }
+          return {
+            contributorsLink: `https://github.com${$(contributor).attr(
+              'href'
+            )}`,
+            img: $(contributor).find('img').attr('src').split('?')[0],
+          };
+        })
+        .filter((contributor) => contributor !== null);
 
       return {
         title,
-        author,
-        authorLink,
         repoLink,
+        authorImg,
         description,
         language,
         stars,
         forks,
-        contributorsImages,
+        contributors,
       };
     });
 
