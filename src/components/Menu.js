@@ -3,6 +3,14 @@ import languages from '../data/githubLanguages';
 
 export default class Menu extends Component {
   render() {
+    const { updateLanguage, updateDate } = this.props;
+    const popularLanguages = ['Any', 'Python', 'JavaScript', 'Go', 'Css'];
+    const dateRange = {
+      Today: 'daily',
+      'This week': 'weekly',
+      'This month': 'monthly',
+    };
+
     return (
       <section className='menu-container'>
         <h4>Find the trending repositories or developers on GitHub!</h4>
@@ -14,23 +22,16 @@ export default class Menu extends Component {
           <div className='menu-options__languages'>
             <p>Languages :</p>
             <ul>
+              {popularLanguages.map((lang) => (
+                <li key={lang}>
+                  <button onClick={() => updateLanguage(lang)}>{lang}</button>
+                </li>
+              ))}
               <li>
-                <button>All</button>
-              </li>
-              <li>
-                <button>Python</button>
-              </li>
-              <li>
-                <button>JavaScript</button>
-              </li>
-              <li>
-                <button>Go</button>
-              </li>
-              <li>
-                <button>Css</button>
-              </li>
-              <li>
-                <select name='other-languages'>
+                <select
+                  name='other-languages'
+                  onChange={(e) => updateLanguage(e.target.value)}
+                >
                   {Object.keys(languages).map((language) => (
                     <option key={language} value={language}>
                       {language}
@@ -43,15 +44,16 @@ export default class Menu extends Component {
           <div className='menu-options__date-range'>
             <p>Data range :</p>
             <ul>
-              <li>
-                <button>Daily</button>
-              </li>
-              <li>
-                <button>This week</button>
-              </li>
-              <li>
-                <button>This month</button>
-              </li>
+              {Object.keys(dateRange).map((date) => (
+                <li key={date}>
+                  <button
+                    value={dateRange[date]}
+                    onClick={(e) => updateDate(e.target.value)}
+                  >
+                    {date}
+                  </button>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
