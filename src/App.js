@@ -15,23 +15,32 @@ export default class App extends Component {
   };
 
   updateSelectedLanguage = (language) => {
-    this.setState({
-      selectedLanguage: language,
-    });
-    this.fetchData();
+    // * setState can take a callback
+    // * which will be executed when state is updaed
+    this.setState(
+      {
+        selectedLanguage: language,
+      },
+      () => this.fetchData()
+    );
   };
 
   updateSelectedDate = (date) => {
-    this.setState({
-      selectedDate: date,
-    });
-    this.fetchData();
+    this.setState(
+      {
+        selectedDate: date,
+      },
+      () => this.fetchData()
+    );
   };
 
   updateMode = (mode) => {
-    this.setState({
-      mode,
-    });
+    this.setState(
+      {
+        mode,
+      },
+      () => this.fetchData()
+    );
   };
 
   setRepoLanguageState = (data) => {
