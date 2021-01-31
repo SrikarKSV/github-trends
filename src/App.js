@@ -81,7 +81,7 @@ export default class App extends Component {
       const data = await res.data;
       this.setLanguageState(data);
     } catch (err) {
-      if (err.response.status) {
+      if (err.response.status === 404) {
         this.setLanguageState('No trending repo/user found');
       } else {
         this.setLanguageState('Error: Try again later');
@@ -119,7 +119,13 @@ export default class App extends Component {
             updateLanguage={this.updateSelectedLanguage}
             updateDate={this.updateSelectedDate}
           />
-          <Results />
+          <Results
+            mode={this.state.mode}
+            repoData={this.state.repoData}
+            devData={this.state.devData}
+            selectedLanguage={this.state.selectedLanguage}
+            selectedDate={this.state.selectedDate}
+          />
         </main>
       </div>
     );
