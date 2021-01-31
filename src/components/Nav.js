@@ -10,8 +10,12 @@ export default class Nav extends Component {
           <h1>GitHub Trends</h1>
           <nav>
             <ul>
-              <li>User Search</li>
-              <li>Battle</li>
+              <li>
+                <a href='/user-search'>User Search</a>
+              </li>
+              <li>
+                <a href='/battle'>Battle</a>
+              </li>
             </ul>
           </nav>
         </div>

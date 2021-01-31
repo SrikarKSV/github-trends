@@ -3,7 +3,7 @@ import languages from '../data/githubLanguages';
 
 export default class Menu extends Component {
   render() {
-    const { updateLanguage, updateDate } = this.props;
+    const { updateLanguage, updateDate, updateMode } = this.props;
     const popularLanguages = ['Any', 'Python', 'JavaScript', 'Go', 'Css'];
     const dateRange = {
       Today: 'daily',
@@ -15,8 +15,8 @@ export default class Menu extends Component {
       <section className='menu-container'>
         <h4>Find the trending repositories or developers on GitHub!</h4>
         <div className='trend-select'>
-          <button>Repos</button>
-          <button>Users</button>
+          <button onClick={() => updateMode('repos')}>Repos</button>
+          <button onClick={() => updateMode('devs')}>Devs</button>
         </div>
         <div className='menu-options'>
           <div className='menu-options__languages'>
