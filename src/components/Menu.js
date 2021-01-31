@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import languages from '../data/githubLanguages';
 
 export default class Menu extends Component {
+  static propTypes = {
+    updateLanguage: PropTypes.func.isRequired,
+    updateDate: PropTypes.func.isRequired,
+    updateMode: PropTypes.func.isRequired,
+  };
+
   render() {
     const { updateLanguage, updateDate, updateMode } = this.props;
     const popularLanguages = ['Any', 'Python', 'JavaScript', 'Go', 'Css'];
