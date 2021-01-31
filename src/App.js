@@ -55,32 +55,53 @@ export default class App extends Component {
     }));
   };
 
-  fetchRepoData = async () => {
-    try {
-      const URL = `https://github.com/trending${
-        this.state.selectedLanguage === 'Any'
-          ? ''
-          : `/${this.state.selectedLanguage}`
-      }?since=${this.state.selectedDate}`;
+  setDevLanguageState = (data) => {
+    this.setState(({ devData, selectedDate, selectedLanguage }) => ({
+      devData: {
+        ...devData,
+        [selectedDate]: {
+          ...devData[selectedDate],
+          [selectedLanguage]: data,
+        },
+      },
+    }));
+  };
 
-      const res = await axios.post('/api/getTrendingRepo', {
-        url: URL,
+  setLanguageState = (data) => {
+    this.state.mode === 'repos'
+      ? this.setRepoLanguageState(data)
+      : this.setDevLanguageState(data);
+  };
+
+  fetchModeData = async (func, url) => {
+    try {
+      const res = await axios.post(`/api/${func}`, {
+        url,
       });
       const data = await res.data;
-
-      this.setRepoLanguageState(data);
+      this.setLanguageState(data);
     } catch (err) {
       if (err.response.status) {
-        this.setRepoLanguageState('No trending repo/user found');
+        this.setLanguageState('No trending repo/user found');
       } else {
-        this.setRepoLanguageState('Error: Try again later');
+        this.setLanguageState('Error: Try again later');
       }
     }
   };
 
   fetchData = () => {
+    let url = `https://github.com/trending${
+      this.state.selectedLanguage === 'Any'
+        ? ''
+        : `/${this.state.selectedLanguage}`
+    }?since=${this.state.selectedDate}`;
+
     if (this.state.mode === 'repos') {
-      this.fetchRepoData();
+      this.fetchModeData('getTrendingRepo', url);
+    } else {
+      // Updating link for trending devs
+      url = url.replace(/\.com\/trending/, '.com/trending/developers');
+      this.fetchModeData('getTrendingDev', url);
     }
   };
 
