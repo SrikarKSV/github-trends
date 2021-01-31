@@ -1,9 +1,19 @@
-const fetchData = require('./utils/fetchData');
+const axios = require('axios');
+const cheerio = require('cheerio');
 const formattedResponse = require('./utils/formattedResponse');
 
 exports.handler = async (event) => {
   try {
-    const { repos, $ } = await fetchData(event);
+    const { url } = JSON.parse(event.body);
+    const res = await axios.get(url, {
+      headers: {
+        Accept: 'text/html',
+      },
+    });
+    const text = await res.data;
+    const $ = cheerio.load(text);
+
+    const repos = $('.Box article.Box-row').toArray();
 
     const data = repos.map((repo) => {
       const active = $(repo);
