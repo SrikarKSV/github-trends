@@ -2,11 +2,10 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const formattedResponse = require('./utils/formattedResponse');
 
-const URL = 'https://github.com/trending';
-
 exports.handler = async (event) => {
   try {
-    const res = await axios.get(URL, {
+    const { url } = JSON.parse(event.body);
+    const res = await axios.get(url, {
       headers: {
         Accept: 'text/html',
       },
@@ -75,14 +74,14 @@ exports.handler = async (event) => {
     });
 
     if (!data.length) {
-      throw new Error("Didn't recieve the expected data");
+      return formattedResponse(404, 'No trending repos/devs found');
     }
 
     return formattedResponse(200, data);
   } catch (err) {
     console.error(err);
     return formattedResponse(500, {
-      err: 'Something went wrong, try again another time',
+      err,
     });
   }
 };
