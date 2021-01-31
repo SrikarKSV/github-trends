@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RepoCards from './RepoCards';
+import UserCards from './UserCards';
 
 export default class Results extends Component {
   static propTypes = {
@@ -31,7 +32,7 @@ export default class Results extends Component {
             'Loading'
           )
         ) : devData?.[selectedDate]?.[selectedLanguage] ? (
-          JSON.stringify(devData[selectedDate][selectedLanguage])
+          <UserCards devs={devData[selectedDate][selectedLanguage]} />
         ) : (
           'Loading'
         )}
