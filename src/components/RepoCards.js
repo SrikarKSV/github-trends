@@ -18,7 +18,11 @@ export default class RepoCards extends Component {
             <article key={repo.authorImg}>
               <img src={repo.authorImg} alt={repo.title} />
               <div className='repo-cards-container__info'>
-                <h4>{repo.title}</h4>
+                <h4>
+                  <a href={repo.repoLink} target='_blank' rel='noreferrer'>
+                    {repo.title}
+                  </a>
+                </h4>
                 <p>{repo.description}</p>
                 <p>Language : {repo.language}</p>
                 <p>
@@ -36,7 +40,11 @@ export default class RepoCards extends Component {
                   <div className='contributors-images'>
                     {repo.contributors.length
                       ? repo.contributors.map((contributors) => (
-                          <a href={contributors.contributorsLink}>
+                          <a
+                            href={contributors.contributorsLink}
+                            target='_blank'
+                            rel='noreferrer'
+                          >
                             <img
                               src={`${contributors.img}?s=60`}
                               alt='Contributor avatar'
