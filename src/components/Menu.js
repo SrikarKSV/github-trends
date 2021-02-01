@@ -10,8 +10,9 @@ export default class Menu extends Component {
   };
 
   render() {
-    const { updateLanguage, updateDate, updateMode } = this.props;
+    const { updateLanguage, updateDate, updateMode, mode } = this.props;
     const popularLanguages = ['Any', 'Python', 'JavaScript', 'Go', 'Css'];
+    const trendingModes = ['Repos', 'Devs'];
     const dateRange = {
       Today: 'daily',
       'This week': 'weekly',
@@ -22,8 +23,19 @@ export default class Menu extends Component {
       <section className='menu-container'>
         <h4>Find the trending repositories or developers on GitHub!</h4>
         <div className='trend-select'>
-          <button onClick={() => updateMode('repos')}>Repos</button>
-          <button onClick={() => updateMode('devs')}>Devs</button>
+          {trendingModes.map((trendingMode) => (
+            <button
+              key={trendingMode}
+              style={
+                mode === trendingMode.toLowerCase()
+                  ? { background: '#55ABD6' }
+                  : {}
+              }
+              onClick={() => updateMode('repos')}
+            >
+              {trendingMode}
+            </button>
+          ))}
         </div>
         <div className='menu-options'>
           <div className='menu-options__languages'>
