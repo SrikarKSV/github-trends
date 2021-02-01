@@ -1,0 +1,57 @@
+header {
+  margin-top: 3.5rem;
+  @include apply-flex(row, space-between, center);
+
+  h1 {
+    color: var(--red);
+  }
+
+  .header-left,
+  ul {
+    @include apply-flex(row, center, center);
+  }
+
+  li:first-of-type {
+    margin: 0 2rem;
+  }
+
+  li {
+    font-size: 1.8rem;
+    font-weight: 300;
+
+    a {
+      text-decoration: none;
+      transition: all 0.3s linear;
+      transform-origin: bottom left;
+      position: relative;
+      background: linear-gradient(
+        to bottom,
+        var(--white),
+        var(--white) 50%,
+        var(--dark-blue) 50%
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 100% 200%;
+
+      &:hover {
+        background-position: 0 100%;
+      }
+    }
+  }
+
+  .theme-switch {
+    --rotate: -15deg;
+    background: transparent;
+    border: none;
+    color: white;
+    transform: rotate(var(--rotate));
+    cursor: pointer;
+    transition: transform 0.3s linear;
+  }
+
+  .theme-switch:hover {
+    --rotate: -35deg;
+  }
+}
