@@ -111,22 +111,25 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className='container'>
-        <Nav />
-        <main>
-          <Menu
-            updateMode={this.updateMode}
-            updateLanguage={this.updateSelectedLanguage}
-            updateDate={this.updateSelectedDate}
-          />
-          <Results
-            mode={this.state.mode}
-            repoData={this.state.repoData}
-            devData={this.state.devData}
-            selectedLanguage={this.state.selectedLanguage}
-            selectedDate={this.state.selectedDate}
-          />
-        </main>
+      <div className='bg-dark'>
+        <div className='container'>
+          <Nav />
+          <main>
+            <Menu
+              mode={this.state.mode}
+              updateMode={this.updateMode}
+              updateLanguage={this.updateSelectedLanguage}
+              updateDate={this.updateSelectedDate}
+            />
+            <Results
+              mode={this.state.mode}
+              repoData={this.state.repoData}
+              devData={this.state.devData}
+              selectedLanguage={this.state.selectedLanguage}
+              selectedDate={this.state.selectedDate}
+            />
+          </main>
+        </div>
       </div>
     );
   }
