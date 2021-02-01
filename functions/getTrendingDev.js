@@ -28,10 +28,16 @@ exports.handler = async (event) => {
         .text()
         .trim();
       const popularRepoLink = `https://github.com/${userName}/${popularRepo}`;
+      const profileImg = active
+        .find(`div [href="${profileLink}"]`)
+        .find('img')
+        .attr('src')
+        .split('?')[0];
 
       return {
         fullName,
         userName,
+        profileImg,
         profileLink,
         popularRepo,
         popularRepoLink,
