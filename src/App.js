@@ -90,15 +90,28 @@ export default class App extends Component {
   };
 
   fetchData = () => {
+    const mode = this.state.mode;
+
     let url = `https://github.com/trending${
       this.state.selectedLanguage === 'Any'
         ? ''
         : `/${this.state.selectedLanguage}`
     }?since=${this.state.selectedDate}`;
 
-    if (this.state.mode === 'repos') {
+    // Checking if the requested resource is already present or not
+    if (
+      mode === 'repos' &&
+      !this.state.repoData?.[this.state.selectedDate]?.[
+        this.state.selectedLanguage
+      ]
+    ) {
       this.fetchModeData('getTrendingRepo', url);
-    } else {
+    } else if (
+      mode === 'devs' &&
+      !this.state.devData?.[this.state.selectedDate]?.[
+        this.state.selectedLanguage
+      ]
+    ) {
       // Updating link for trending devs
       url = url.replace(/\.com\/trending/, '.com/trending/developers');
       this.fetchModeData('getTrendingDev', url);
