@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import RepoCards from './RepoCards';
-import UserCards from './UserCards';
+import RepoCardGrid from './RepoCardGrid';
+import UserCardGrid from './UserCardGrid';
 
 export default class Results extends Component {
   static propTypes = {
@@ -22,17 +22,17 @@ export default class Results extends Component {
     } = this.props;
 
     return (
-      <section>
-        <h4>Results</h4>
+      <section className='results-container'>
+        <h4 className='results-container__header'>Results</h4>
 
         {mode === 'repos' ? (
           repoData?.[selectedDate]?.[selectedLanguage] ? (
-            <RepoCards repos={repoData[selectedDate][selectedLanguage]} />
+            <RepoCardGrid repos={repoData[selectedDate][selectedLanguage]} />
           ) : (
             'Loading'
           )
         ) : devData?.[selectedDate]?.[selectedLanguage] ? (
-          <UserCards devs={devData[selectedDate][selectedLanguage]} />
+          <UserCardGrid devs={devData[selectedDate][selectedLanguage]} />
         ) : (
           'Loading'
         )}
