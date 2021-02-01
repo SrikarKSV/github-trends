@@ -15,7 +15,7 @@ exports.handler = async (event) => {
 
     const repos = $('.Box article.Box-row').toArray();
 
-    const data = repos.map((repo) => {
+    const data = repos.map((repo, index) => {
       const active = $(repo);
       const title = active.find('h1').text().replace(/\s/g, '');
       const author = title.split('/')[0];
@@ -53,6 +53,7 @@ exports.handler = async (event) => {
             return null;
           }
           return {
+            id: index,
             contributorsLink: `https://github.com${$(contributor).attr(
               'href'
             )}`,
@@ -62,6 +63,7 @@ exports.handler = async (event) => {
         .filter((contributor) => contributor !== null);
 
       return {
+        id: index + 1,
         title,
         repoLink,
         authorImg,

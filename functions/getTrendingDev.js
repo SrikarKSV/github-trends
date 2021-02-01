@@ -15,7 +15,7 @@ exports.handler = async (event) => {
 
     const repos = $('.Box article.Box-row').toArray();
 
-    const data = repos.map((repo) => {
+    const data = repos.map((repo, index) => {
       const active = $(repo);
 
       const fullName = active.find('h1.h3').text().trim();
@@ -35,6 +35,7 @@ exports.handler = async (event) => {
         .split('?')[0];
 
       return {
+        id: index + 1,
         fullName,
         userName,
         profileImg,
