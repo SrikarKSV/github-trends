@@ -1,16 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import languages from '../data/githubLanguages';
+import tagBeep from '../assets/hoverBeep.mp3';
 
 export default class Menu extends Component {
+  state = {
+    selectTaglanguage: '',
+  };
+
   static propTypes = {
     updateLanguage: PropTypes.func.isRequired,
     updateDate: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
   };
+  tagAudio = React.createRef();
+
+  playTagBeep = () => {
+    this.tagAudio.current.volume = 0.5;
+    this.tagAudio.current.play();
+  };
 
   render() {
-    const { updateLanguage, updateDate, updateMode, mode } = this.props;
+    const {
+      updateLanguage,
+      updateDate,
+      updateMode,
+      mode,
+      selectedLanguage,
+      selectedDate,
+    } = this.props;
     const popularLanguages = ['Any', 'Python', 'JavaScript', 'Go', 'Css'];
     const trendingModes = ['Repos', 'Devs'];
     const dateRange = {
@@ -29,9 +47,9 @@ export default class Menu extends Component {
               style={
                 mode === trendingMode.toLowerCase()
                   ? { background: '#55ABD6' }
-                  : {}
+                  : null
               }
-              onClick={() => updateMode('repos')}
+              onClick={() => updateMode(trendingMode.toLowerCase())}
             >
               {trendingMode}
             </button>
@@ -43,13 +61,34 @@ export default class Menu extends Component {
             <ul>
               {popularLanguages.map((lang) => (
                 <li key={lang}>
-                  <button onClick={() => updateLanguage(lang)}>{lang}</button>
+                  <button
+                    style={
+                      selectedLanguage === lang
+                        ? { background: '#55c57a' }
+                        : null
+                    }
+                    onClick={() => updateLanguage(lang)}
+                    onMouseEnter={this.playTagBeep}
+                  >
+                    {lang}
+                  </button>
                 </li>
               ))}
               <li>
                 <select
                   name='other-languages'
-                  onChange={(e) => updateLanguage(e.target.value)}
+                  onChange={(e) => {
+                    updateLanguage(e.target.value);
+                    this.setState({
+                      selectTaglanguage: e.target.value,
+                    });
+                  }}
+                  style={
+                    this.state.selectTaglanguage === selectedLanguage
+                      ? { background: '#55c57a' }
+                      : { background: '#e60067' }
+                  }
+                  onMouseEnter={this.playTagBeep}
                 >
                   {Object.keys(languages).map((language) => (
                     <option key={language} value={language}>
@@ -66,8 +105,14 @@ export default class Menu extends Component {
               {Object.keys(dateRange).map((date) => (
                 <li key={date}>
                   <button
+                    style={
+                      selectedDate === dateRange[date]
+                        ? { background: '#55c57a' }
+                        : null
+                    }
                     value={dateRange[date]}
                     onClick={(e) => updateDate(e.target.value)}
+                    onMouseEnter={this.playTagBeep}
                   >
                     {date}
                   </button>
@@ -76,6 +121,7 @@ export default class Menu extends Component {
             </ul>
           </div>
         </div>
+        <audio ref={this.tagAudio} src={tagBeep}></audio>
       </section>
     );
   }

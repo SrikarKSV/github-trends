@@ -120,6 +120,8 @@ export default class App extends Component {
               updateMode={this.updateMode}
               updateLanguage={this.updateSelectedLanguage}
               updateDate={this.updateSelectedDate}
+              selectedLanguage={this.state.selectedLanguage}
+              selectedDate={this.state.selectedDate}
             />
             <Results
               mode={this.state.mode}
