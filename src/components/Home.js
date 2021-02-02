@@ -11,6 +11,7 @@ export default class Home extends Component {
     repoData: {},
     devData: {},
   };
+  signal = axios.CancelToken.source();
 
   updateSelectedLanguage = (language) => {
     // * setState can take a callback
@@ -73,13 +74,21 @@ export default class Home extends Component {
 
   fetchModeData = async (func, url) => {
     try {
-      const res = await axios.post(`/api/${func}`, {
-        url,
-      });
+      const res = await axios.post(
+        `/api/${func}`,
+        {
+          url,
+        },
+        {
+          cancelToken: this.signal.token,
+        }
+      );
       const data = await res.data;
       this.setLanguageState(data);
     } catch (err) {
-      if (err.response.status === 404) {
+      if (axios.isCancel(err)) {
+        console.log('Error: ', err.message); // => prints: Api is being canceled
+      } else if (err.response.status === 404) {
         this.setLanguageState('No trending repo/user found');
       } else {
         this.setLanguageState('Error: Try again later');
@@ -118,6 +127,10 @@ export default class Home extends Component {
 
   componentDidMount() {
     this.fetchData();
+  }
+
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled');
   }
 
   render() {
