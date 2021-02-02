@@ -1,6 +1,7 @@
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
 export default class Nav extends Component {
   render() {
@@ -8,15 +9,19 @@ export default class Nav extends Component {
       <header>
         <div className='header-left'>
           <h1>
-            <a href='/'>GitHub Trends</a>
+            <Link to='/'>GitHub Trends</Link>
           </h1>
           <nav>
             <ul>
               <li>
-                <a href='/user-search'>User Search</a>
+                <NavLink activeClassName='active-nav' to='/user-search'>
+                  User Search
+                </NavLink>
               </li>
               <li>
-                <a href='/battle'>Battle</a>
+                <NavLink activeClassName='active-nav' to='/battle'>
+                  Battle
+                </NavLink>
               </li>
             </ul>
           </nav>
