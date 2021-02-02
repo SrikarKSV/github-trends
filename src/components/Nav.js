@@ -7,7 +7,9 @@ export default class Nav extends Component {
     return (
       <header>
         <div className='header-left'>
-          <h1>GitHub Trends</h1>
+          <h1>
+            <a href='/'>GitHub Trends</a>
+          </h1>
           <nav>
             <ul>
               <li>
@@ -19,8 +21,8 @@ export default class Nav extends Component {
             </ul>
           </nav>
         </div>
-        <div className='header-right'>
-          <button>
+        <div>
+          <button className='theme-switch'>
             <FontAwesomeIcon size='2x' icon={faMoon} />
           </button>
         </div>
