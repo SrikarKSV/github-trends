@@ -14,6 +14,8 @@ function UserCard({ dev }) {
           <a
             className='user-card__name'
             href={`https://github.com${dev.profileLink}`}
+            target='_blank'
+            rel='noreferrer'
           >
             {dev.fullName}
           </a>
@@ -21,7 +23,12 @@ function UserCard({ dev }) {
         <p>{dev.userName}</p>
         <p>
           Popular repo :{' '}
-          <a href={dev.popularRepoLink} className='popular-repo'>
+          <a
+            target='_blank'
+            rel='noreferrer'
+            href={dev.popularRepoLink}
+            className='popular-repo'
+          >
             {dev.popularRepo}
           </a>
         </p>
