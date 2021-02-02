@@ -6,7 +6,7 @@ import languages from '../data/githubLanguages';
 
 function formatTitle(title) {
   const [author, repoName] = title.split('/');
-  if (repoName.length > 20) {
+  if (repoName.length > 10) {
     return (
       <>
         <p>{author}/</p>
@@ -28,7 +28,15 @@ function RepoCard({ repo }) {
           : { background: '#151f28' }
       }
     >
-      <img className='dev-avatar' src={repo.authorImg} alt={repo.title} />
+      <img
+        className='dev-avatar'
+        src={
+          repo?.authorImg
+            ? repo.authorImg
+            : 'https://avatars.githubusercontent.com/u/649246'
+        }
+        alt={repo.title}
+      />
       <div className='repo-cards-container__info'>
         <h4>
           <a href={repo.repoLink} target='_blank' rel='noreferrer'>
@@ -36,8 +44,8 @@ function RepoCard({ repo }) {
           </a>
         </h4>
         <p>
-          {repo.description?.length > 70
-            ? repo.description.slice(0, 70) + '...'
+          {repo.description?.length > 90
+            ? repo.description.slice(0, 90) + '...'
             : repo.description}
         </p>
         <p>Language : {repo?.language ? repo?.language : 'No language used'}</p>
@@ -52,7 +60,7 @@ function RepoCard({ repo }) {
           </span>
         </p>
         <div>
-          <p>Contributors</p>
+          <p>Contributors :</p>
           <div className='contributors-images'>
             {repo.contributors.length
               ? repo.contributors.map((contributor) => (

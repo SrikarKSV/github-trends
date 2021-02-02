@@ -26,8 +26,8 @@ function UserCard({ dev }) {
           </a>
         </p>
         <p>
-          {dev.popularRepoDescription?.length > 100
-            ? dev.popularRepoDescription.slice(0, 70) + '...'
+          {dev.popularRepoDescription?.length > 90
+            ? dev.popularRepoDescription.slice(0, 90) + '...'
             : dev.popularRepoDescription}
         </p>
       </div>
