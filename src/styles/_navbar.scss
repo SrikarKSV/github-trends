@@ -49,9 +49,48 @@ header {
     transform: rotate(var(--rotate));
     cursor: pointer;
     transition: transform 0.3s linear;
+    position: relative;
   }
 
   .theme-switch:hover {
     --rotate: -35deg;
+  }
+
+  @media only screen and (max-width: 48.75em) {
+    // 780px
+    .theme-switch {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+    }
+    .header-left {
+      flex-direction: column;
+      margin: auto;
+
+      h4 {
+        font-size: 3rem;
+      }
+
+      li {
+        font-size: 1.6rem;
+      }
+    }
+  }
+  @media only screen and (max-width: 25em) {
+    // 400px
+    .header-left {
+      h1 {
+        font-size: 3rem;
+      }
+
+      li {
+        font-size: 1.4rem;
+      }
+    }
+
+    .theme-switch {
+      top: 20px;
+      right: 20px;
+    }
   }
 }

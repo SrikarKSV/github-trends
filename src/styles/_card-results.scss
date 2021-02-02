@@ -8,15 +8,7 @@
   .repo-cards-container,
   .user-card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 10px;
-    margin-bottom: 2rem;
-  }
-
-  .repo-cards-container,
-  .user-card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
     gap: 10px;
     margin-bottom: 2rem;
 
@@ -40,10 +32,11 @@
         overflow-wrap: break-word;
 
         a {
-          transition: color 0.3s;
+          transition: all 0.3s;
+          display: block;
 
           &:hover {
-            color: var(--dark-bg);
+            transform: translateY(-0.1rem) scale(1.01);
           }
 
           &.user-card__name:hover {
@@ -52,8 +45,9 @@
         }
       }
 
-      p {
+      .repo-cards-container__info > p {
         margin-bottom: 0.5rem;
+        font-size: 1.1rem;
       }
 
       svg {
@@ -84,6 +78,21 @@
       &:hover {
         transform: translateY(-3px);
         color: var(--light-blue);
+      }
+    }
+  }
+
+  @media only screen and (max-width: 35em) {
+    // 560px
+    .repo-cards-container,
+    .user-card-container {
+      grid-template-columns: 1fr;
+      article {
+        grid-template-columns: 1fr;
+      }
+
+      .dev-avatar {
+        width: 150px;
       }
     }
   }
