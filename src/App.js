@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { Component } from 'react';
-import Menu from './components/Menu';
+import Menu from './components/TrendMenu';
 import Nav from './components/Nav';
-import Results from './components/Results';
+import Results from './components/TrendResults';
 import './styles/main.scss';
 
 export default class App extends Component {
