@@ -9,6 +9,7 @@ import {
   faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import UserRepoGrid from './UserRepoGrid';
 
 function UserBio({ userProfile }) {
   return (
@@ -71,10 +72,12 @@ function UserDetail({
     <>
       {Array.isArray(userRepoDetail) ? (
         <section className='user-detail-container'>
-          <img
-            src={userProfile.avatarLink}
-            alt={`Avatar of ${userProfile.username}`}
-          />
+          <a href={userProfile.profileLink} target='_blank' rel='noreferrer'>
+            <img
+              src={userProfile.avatarLink}
+              alt={`Avatar of ${userProfile.username}`}
+            />
+          </a>
           <h4>{userProfile.fullName}</h4>
           <p>{userProfile.username}</p>
           <UserBio userProfile={userProfile} />
@@ -105,6 +108,12 @@ function UserDetail({
               {sortStars || sortLanguage ? (
                 <button onClick={clearFilters}>Clear Filters</button>
               ) : null}
+            </div>
+
+            <div className='user-repo-detail-grid'>
+              {userRepoDetail.map((userRepo) => (
+                <UserRepoGrid key={userRepo.id} userRepo={userRepo} />
+              ))}
             </div>
           </div>
         </section>
