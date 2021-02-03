@@ -3,6 +3,7 @@ import axios from 'axios';
 function formatRepoDetails(data) {
   const repoDetails = data.map((repo) => {
     return {
+      id: repo.id,
       title: repo.name,
       description: repo.description,
       isForked: repo.fork,
@@ -13,7 +14,6 @@ function formatRepoDetails(data) {
       createdAt: repo.created_at,
       homepage: repo.homepage,
       openIssues: repo.open_issues,
-      size: repo.size,
     };
   });
 
