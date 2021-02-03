@@ -12,7 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import UserRepoGrid from './UserRepoGrid';
-import { getUniqueLanguages } from '../utils/utils';
+import { filterRepoData, getUniqueLanguages } from '../utils/utils';
 
 function UserBio({ userProfile }) {
   return (
@@ -101,11 +101,13 @@ function UserDetail({
             <div>
               <label htmlFor='stars'>Stars :</label>
               <select name='stars' id='stars' onChange={setSortStars}>
+                <option value=''>Not Set</option>
                 <option value='asc'>Ascending</option>
                 <option value='desc'>Descending</option>
               </select>
               <label htmlFor='language'>Language: </label>
               <select name='language' id='language' onChange={setSortLanguage}>
+                <option value=''>Any</option>
                 {allLanguages.map((language) => (
                   <option key={language} value={language}>
                     {language}
@@ -177,22 +179,31 @@ class UserSearch extends Component {
   };
 
   setSortLanguage = (e) => {
-    this.setState({
-      sortLanguage: e.target.value,
-    });
+    this.setState(
+      {
+        sortLanguage: e.target.value,
+      },
+      () => this.filterRepos()
+    );
   };
 
   setSortStars = (e) => {
-    this.setState({
-      sortStars: e.target.value,
-    });
+    this.setState(
+      {
+        sortStars: e.target.value,
+      },
+      () => this.filterRepos()
+    );
   };
 
   clearFilters = () => {
-    this.setState({
-      sortLanguage: '',
-      sortStars: '',
-    });
+    this.setState(
+      {
+        sortLanguage: '',
+        sortStars: '',
+      },
+      () => this.filterRepos()
+    );
   };
 
   componentDidMount() {
@@ -217,12 +228,16 @@ class UserSearch extends Component {
     e.target.reset();
   };
 
-  // filterRepos = () => {
-  //   const stars = this.state.sortStars;
-  //   const language = this.state.sortLanguage;
-  //   const repos = this.state.userRepoDetailOriginal
-  //   if (language)
-  // };
+  filterRepos = () => {
+    const repos = filterRepoData(
+      this.state.sortStars,
+      this.state.sortLanguage,
+      this.state.userRepoDetailOriginal
+    );
+    this.setState({
+      userRepoMutated: repos,
+    });
+  };
 
   isDetailLoaded = () => {
     return this.state.username && !this.state.loading;
