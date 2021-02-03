@@ -1,12 +1,5 @@
 import axios from 'axios';
 
-function parseErrorMsg(message, username) {
-  if (message === 'Not Found') {
-    return `${username} doesn't exist`;
-  }
-  return message;
-}
-
 function formatRepoDetails(data) {
   const repoDetails = data.map((repo) => {
     return {
@@ -55,8 +48,8 @@ function fetchUserDetails(username, url, mode) {
       }
     })
     .catch((err) => {
-      if (err.message) {
-        return parseErrorMsg(err.message, username);
+      if (err.response.status === 404) {
+        return `${username} doesn't exist`;
       }
       return err;
     });
