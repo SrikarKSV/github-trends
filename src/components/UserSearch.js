@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import queryString from 'query-string';
 import { withRouter } from 'react-router';
 import { getUserDetails } from '../utils/fetchData';
+import {
+  faBriefcase,
+  faGlobe,
+  faMapMarkerAlt,
+} from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 
 function UserBio({ userProfile }) {
   return (
@@ -14,25 +21,35 @@ function UserBio({ userProfile }) {
       )}
       {userProfile.company && (
         <p>
-          <span className='bold'>Company :</span>
+          <span className='bold'>
+            Company <FontAwesomeIcon size='1x' icon={faBriefcase} /> :
+          </span>
           {userProfile.company}
         </p>
       )}
       {userProfile.website && (
         <p>
-          <span className='bold'>Website :</span>
+          <span className='bold'>
+            Website
+            <FontAwesomeIcon size='1x' icon={faGlobe} />:
+          </span>
           {userProfile.website}
         </p>
       )}
       {userProfile.location && (
         <p>
-          <span className='bold'>Location :</span>
+          <span className='bold'>
+            Location
+            <FontAwesomeIcon size='1x' icon={faMapMarkerAlt} />:
+          </span>
           {userProfile.location}
         </p>
       )}
       {userProfile.twitterUsername && (
         <p>
-          <span className='bold'>Twitter :</span>
+          <span className='bold'>
+            Twitter <FontAwesomeIcon size='1x' icon={faTwitter} /> :
+          </span>
           {userProfile.twitterUsername}
         </p>
       )}
