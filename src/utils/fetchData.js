@@ -37,9 +37,10 @@ function formatUserDetails(data) {
   };
 }
 
-function fetchUserDetails(username, url, mode) {
+function fetchUserDetails(username, url, signal, mode) {
+  console.log(signal.token);
   return axios
-    .get(url)
+    .get(url, { cancelToken: signal.token })
     .then(({ data }) => {
       if (mode === 'user') {
         return formatUserDetails(data);
@@ -48,19 +49,21 @@ function fetchUserDetails(username, url, mode) {
       }
     })
     .catch((err) => {
-      if (err.response.status === 404) {
+      if (err?.response?.status === 404) {
         return `${username} doesn't exist`;
+      } else if (err?.message === 'Api is being canceled') {
+        throw new Error('API call to fetch user detail cancelled');
       }
       return err;
     });
 }
 
-export function getUserDetails(username, page = 1) {
+export function getUserDetails(username, signal, page = 1) {
   const userProfileURL = `https://api.github.com/users/${username}`;
   const userRepoURL = `https://api.github.com/users/${username}/repos?per_page=100&type=owner&sort=updated&page=${page}`;
   return Promise.all([
-    fetchUserDetails(username, userProfileURL, 'user'),
-    fetchUserDetails(username, userRepoURL, 'repo'),
+    fetchUserDetails(username, userProfileURL, signal, 'user'),
+    fetchUserDetails(username, userRepoURL, signal, 'repo'),
   ]).then(([profile, repo]) => {
     return { profile, repo };
   });
