@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import queryString from 'query-string';
 import { withRouter } from 'react-router';
@@ -10,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import UserRepoGrid from './UserRepoGrid';
+import { getUniqueLanguages } from '../utils/utils';
 
 function UserBio({ userProfile }) {
   return (
@@ -57,6 +60,10 @@ function UserBio({ userProfile }) {
     </>
   );
 }
+
+UserBio.propTypes = {
+  userProfile: PropTypes.object.isRequired,
+};
 
 function UserDetail({
   userProfile,
@@ -124,6 +131,18 @@ function UserDetail({
   );
 }
 
+UserDetail.propTypes = {
+  userProfile: PropTypes.object.isRequired,
+  userRepoDetail: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+    .isRequired,
+  allLanguages: PropTypes.array.isRequired,
+  setSortStars: PropTypes.func.isRequired,
+  setSortLanguage: PropTypes.func.isRequired,
+  sortStars: PropTypes.string.isRequired,
+  sortLanguage: PropTypes.string.isRequired,
+  clearFilters: PropTypes.func.isRequired,
+};
+
 class UserSearch extends Component {
   state = {
     loading: false,
@@ -131,29 +150,30 @@ class UserSearch extends Component {
     userProfile: {},
     userRepoDetailOriginal: [],
     userRepoMutated: [],
-    allLanguages: [],
     sortStars: '',
     sortLanguage: '',
   };
+
+  signal = axios.CancelToken.source();
 
   updateUserDetails = (username) => {
     this.setState({
       loading: true,
     });
 
-    getUserDetails(username).then(({ profile, repo: repos }) => {
-      const uniqueLanguages = Array.from(
-        new Set(repos.map((repo) => repo.language))
-      );
-      this.setState({
-        username,
-        userProfile: profile,
-        userRepoDetailOriginal: repos,
-        userRepoMutated: repos,
-        loading: false,
-        allLanguages: uniqueLanguages,
+    getUserDetails(username, this.signal)
+      .then(({ profile, repo: repos }) => {
+        this.setState({
+          username,
+          userProfile: profile,
+          userRepoDetailOriginal: repos,
+          userRepoMutated: repos,
+          loading: false,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   };
 
   setSortLanguage = (e) => {
@@ -182,6 +202,10 @@ class UserSearch extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.signal.cancel('Api is being canceled');
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const { history } = this.props;
@@ -192,6 +216,13 @@ class UserSearch extends Component {
     this.updateUserDetails(e.target.username.value);
     e.target.reset();
   };
+
+  // filterRepos = () => {
+  //   const stars = this.state.sortStars;
+  //   const language = this.state.sortLanguage;
+  //   const repos = this.state.userRepoDetailOriginal
+  //   if (language)
+  // };
 
   isDetailLoaded = () => {
     return this.state.username && !this.state.loading;
@@ -211,10 +242,9 @@ class UserSearch extends Component {
 
         {this.isDetailLoaded() && (
           <UserDetail
-            username={this.state.username}
             userProfile={this.state.userProfile}
             userRepoDetail={this.state.userRepoMutated}
-            allLanguages={this.state.allLanguages}
+            allLanguages={getUniqueLanguages(this.state.userRepoDetailOriginal)}
             setSortStars={this.setSortStars}
             setSortLanguage={this.setSortLanguage}
             sortStars={this.state.sortStars}
