@@ -80,6 +80,13 @@
       padding: 0.3em 0.5em;
       background-color: var(--green);
     }
+
+    @media only screen and (max-width: 26.25em) {
+      // 420px
+      & {
+        padding: 10px;
+      }
+    }
   }
 
   .user-repo-detail {
@@ -132,12 +139,20 @@
         padding: 0.8em;
         position: relative;
         border-radius: var(--border-radius);
+        overflow-wrap: break-word;
+        overflow: hidden;
 
         button {
           margin-top: 10px;
           font-size: 1.2rem;
           background-color: var(--red);
           padding: 0.2em 0.5em;
+        }
+
+        .forked {
+          background: var(--dark-blue);
+          padding: 0.3em 0.5em;
+          border-radius: var(--border-radius);
         }
 
         .repo-stars-forks {
@@ -161,6 +176,50 @@
             margin-left: 10px;
           }
         }
+      }
+    }
+    @media only screen and (max-width: 31.875em) {
+      // 510px
+      .user-repo-detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 40.625em) {
+    // 650px
+    .user-repo-detail__filters {
+      flex-direction: column;
+      align-items: start;
+
+      div:nth-of-type(2),
+      button {
+        margin-left: 0;
+      }
+    }
+
+    .user-search-form {
+      input[type="search"] {
+        width: 15rem;
+      }
+      button {
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 21.875em) {
+    // 350px
+    .user-detail-container .user-bio .follow-stats {
+      flex-direction: column;
+
+      p:nth-of-type(2) {
+        margin-left: 0;
+      }
+    }
+    .user-search-form {
+      input[type="search"] {
+        width: 10rem;
       }
     }
   }

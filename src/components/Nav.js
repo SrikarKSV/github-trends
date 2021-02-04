@@ -18,11 +18,6 @@ export default class Nav extends Component {
                   User Search
                 </NavLink>
               </li>
-              <li>
-                <NavLink activeClassName='active-nav' to='/battle'>
-                  Battle
-                </NavLink>
-              </li>
             </ul>
           </nav>
         </div>
