@@ -67,6 +67,7 @@ exports.handler = async (event) => {
         title,
         repoLink,
         authorImg,
+        author,
         description,
         language,
         stars,
