@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import RepoCardGrid from './RepoCardGrid';
 import UserCardGrid from './UserCardGrid';
 import Loading from './Loading';
+import { ThemeConsumer } from '../contexts/theme';
 
 export default class Results extends Component {
   static propTypes = {
@@ -23,21 +24,27 @@ export default class Results extends Component {
     } = this.props;
 
     return (
-      <section className='results-container'>
-        <h4 className='results-container__header'>Results</h4>
+      <ThemeConsumer>
+        {({ theme }) => (
+          <section className='results-container'>
+            <h4 className={`results-container__header ${theme}`}>Results</h4>
 
-        {mode === 'repos' ? (
-          repoData?.[selectedDate]?.[selectedLanguage] ? (
-            <RepoCardGrid repos={repoData[selectedDate][selectedLanguage]} />
-          ) : (
-            <Loading text='Fetching trending repos' />
-          )
-        ) : devData?.[selectedDate]?.[selectedLanguage] ? (
-          <UserCardGrid devs={devData[selectedDate][selectedLanguage]} />
-        ) : (
-          <Loading text='Fetching trending devs' />
+            {mode === 'repos' ? (
+              repoData?.[selectedDate]?.[selectedLanguage] ? (
+                <RepoCardGrid
+                  repos={repoData[selectedDate][selectedLanguage]}
+                />
+              ) : (
+                <Loading text='Fetching trending repos' />
+              )
+            ) : devData?.[selectedDate]?.[selectedLanguage] ? (
+              <UserCardGrid devs={devData[selectedDate][selectedLanguage]} />
+            ) : (
+              <Loading text='Fetching trending devs' />
+            )}
+          </section>
         )}
-      </section>
+      </ThemeConsumer>
     );
   }
 }

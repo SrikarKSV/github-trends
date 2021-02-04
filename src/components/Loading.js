@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { ThemeConsumer } from '../contexts/theme';
 
 export default class Loading extends Component {
   state = {
@@ -27,6 +28,14 @@ export default class Loading extends Component {
     window.clearInterval(this.interval);
   }
   render() {
-    return <h4>{this.state.content}</h4>;
+    return (
+      <ThemeConsumer>
+        {({ theme }) => (
+          <h4 style={theme === 'light' ? { color: '#000' } : null}>
+            {this.state.content}
+          </h4>
+        )}
+      </ThemeConsumer>
+    );
   }
 }

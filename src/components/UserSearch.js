@@ -15,10 +15,11 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import UserRepoGrid from './UserRepoGrid';
 import { filterRepoData, getUniqueLanguages } from '../utils/utils';
 import Loading from './Loading';
+import { ThemeConsumer } from '../contexts/theme';
 
-function UserBio({ userProfile }) {
+function UserBio({ userProfile, theme }) {
   return (
-    <div className='user-bio'>
+    <div className={`user-bio ${theme}`}>
       {userProfile.bio && (
         <p>
           <span className='bold'>
@@ -93,6 +94,7 @@ function UserBio({ userProfile }) {
 
 UserBio.propTypes = {
   userProfile: PropTypes.object.isRequired,
+  theme: PropTypes.string.isRequired,
 };
 
 function UserDetail({
@@ -112,80 +114,90 @@ function UserDetail({
   loadingMoreRepos,
 }) {
   return (
-    <>
-      {Array.isArray(userRepoDetail) ? (
-        <section className='user-detail-container'>
-          <img
-            src={`${userProfile.avatarLink}&s=200`}
-            alt={`Avatar of ${userProfile.username}`}
-          />
-          <a href={userProfile.profileLink} target='_blank' rel='noreferrer'>
-            <h4>{userProfile.fullName}</h4>
-          </a>
-          <p className='username'>{userProfile.username}</p>
-          <UserBio userProfile={userProfile} />
-          <div className='user-repo-detail'>
-            <h5>Repositories ({userProfile.noOfRepos})</h5>
-            <p className='user-repo-detail__sort-by'>Sort By: </p>
-            <div className='user-repo-detail__filters'>
-              <div>
-                <label htmlFor='stars'>Stars :</label>
-                <select
-                  ref={sortStarsRef}
-                  name='stars'
-                  id='stars'
-                  onChange={setSortStars}
-                  style={sortStars ? { background: '#55c57a' } : null}
-                >
-                  <option value=''>Not Set</option>
-                  <option value='asc'>Ascending</option>
-                  <option value='desc'>Descending</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor='language'>Language: </label>
-                <select
-                  ref={sortLanguageRef}
-                  name='language'
-                  id='language'
-                  onChange={setSortLanguage}
-                  style={sortLanguage ? { background: '#55c57a' } : null}
-                >
-                  <option value=''>All</option>
-                  {allLanguages.map((language) => (
-                    <option key={language} value={language}>
-                      {language}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {sortStars || sortLanguage ? (
-                <button className='clear-filter' onClick={clearFilters}>
-                  Clear Filters
-                </button>
-              ) : null}
-            </div>
+    <ThemeConsumer>
+      {({ theme }) => (
+        <>
+          {Array.isArray(userRepoDetail) ? (
+            <section className={`user-detail-container ${theme}`}>
+              <img
+                src={`${userProfile.avatarLink}&s=200`}
+                alt={`Avatar of ${userProfile.username}`}
+              />
+              <a
+                href={userProfile.profileLink}
+                target='_blank'
+                rel='noreferrer'
+              >
+                <h4 className={`${theme}`}>{userProfile.fullName}</h4>
+              </a>
+              <p className={`username ${theme}`}>{userProfile.username}</p>
+              <UserBio userProfile={userProfile} theme={theme} />
+              <div className={`user-repo-detail ${theme}`}>
+                <h5 className='user-repo-detail__heading'>
+                  Repositories ({userProfile.noOfRepos})
+                </h5>
+                <p className='user-repo-detail__sort-by'>Sort By: </p>
+                <div className='user-repo-detail__filters'>
+                  <div>
+                    <label htmlFor='stars'>Stars :</label>
+                    <select
+                      ref={sortStarsRef}
+                      name='stars'
+                      id='stars'
+                      onChange={setSortStars}
+                      style={sortStars ? { background: '#55c57a' } : null}
+                    >
+                      <option value=''>Not Set</option>
+                      <option value='asc'>Ascending</option>
+                      <option value='desc'>Descending</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor='language'>Language: </label>
+                    <select
+                      ref={sortLanguageRef}
+                      name='language'
+                      id='language'
+                      onChange={setSortLanguage}
+                      style={sortLanguage ? { background: '#55c57a' } : null}
+                    >
+                      <option value=''>All</option>
+                      {allLanguages.map((language) => (
+                        <option key={language} value={language}>
+                          {language}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {sortStars || sortLanguage ? (
+                    <button className='clear-filter' onClick={clearFilters}>
+                      Clear Filters
+                    </button>
+                  ) : null}
+                </div>
 
-            <div className='user-repo-detail-grid'>
-              {userRepoDetail.map((userRepo) => (
-                <UserRepoGrid
-                  key={userRepo.id}
-                  userRepo={userRepo}
-                  copyGitUrl={copyGitUrl}
-                />
-              ))}
-            </div>
-            {noLeftRepo > 0 && (
-              <button className='load-more' onClick={fetchMoreRepo}>
-                {loadingMoreRepos ? 'Loading..' : 'Load More'}
-              </button>
-            )}
-          </div>
-        </section>
-      ) : (
-        <h4>{userRepoDetail}</h4>
+                <div className='user-repo-detail-grid'>
+                  {userRepoDetail.map((userRepo) => (
+                    <UserRepoGrid
+                      key={userRepo.id}
+                      userRepo={userRepo}
+                      copyGitUrl={copyGitUrl}
+                    />
+                  ))}
+                </div>
+                {noLeftRepo > 0 && (
+                  <button className='load-more' onClick={fetchMoreRepo}>
+                    {loadingMoreRepos ? 'Loading..' : 'Load More'}
+                  </button>
+                )}
+              </div>
+            </section>
+          ) : (
+            <h4>{userRepoDetail}</h4>
+          )}
+        </>
       )}
-    </>
+    </ThemeConsumer>
   );
 }
 
@@ -349,40 +361,46 @@ class UserSearch extends Component {
 
   render() {
     return (
-      <section className='user-search-container'>
-        <h3>Explore GitHub user profile</h3>
-        <form
-          className='user-search-form'
-          action='#'
-          method='get'
-          onSubmit={this.handleSubmit}
-        >
-          <label htmlFor='username'>Username</label>
-          <input type='search' name='username' id='username' />
-          <button type='submit'>Search</button>
-        </form>
+      <ThemeConsumer>
+        {({ theme }) => (
+          <section className='user-search-container'>
+            <h3 className={`${theme}`}>Explore GitHub user profile</h3>
+            <form
+              className={`user-search-form ${theme}`}
+              action='#'
+              method='get'
+              onSubmit={this.handleSubmit}
+            >
+              <label htmlFor='username'>Username</label>
+              <input type='search' name='username' id='username' />
+              <button type='submit'>Search</button>
+            </form>
 
-        {this.state.loading && <Loading text="Getting user's profile" />}
+            {this.state.loading && <Loading text="Getting user's profile" />}
 
-        {this.isDetailLoaded() && (
-          <UserDetail
-            userProfile={this.state.userProfile}
-            userRepoDetail={this.state.userRepoMutated}
-            allLanguages={getUniqueLanguages(this.state.userRepoDetailOriginal)}
-            setSortStars={this.setSortStars}
-            setSortLanguage={this.setSortLanguage}
-            sortStars={this.state.sortStars}
-            sortLanguage={this.state.sortLanguage}
-            clearFilters={this.clearFilters}
-            sortStarsRef={this.sortStarsRef}
-            sortLanguageRef={this.sortLanguageRef}
-            copyGitUrl={this.copyGitUrl}
-            noLeftRepo={this.state.noLeftRepo}
-            fetchMoreRepo={this.fetchMoreRepo}
-            loadingMoreRepos={this.state.loadingMoreRepos}
-          />
+            {this.isDetailLoaded() && (
+              <UserDetail
+                userProfile={this.state.userProfile}
+                userRepoDetail={this.state.userRepoMutated}
+                allLanguages={getUniqueLanguages(
+                  this.state.userRepoDetailOriginal
+                )}
+                setSortStars={this.setSortStars}
+                setSortLanguage={this.setSortLanguage}
+                sortStars={this.state.sortStars}
+                sortLanguage={this.state.sortLanguage}
+                clearFilters={this.clearFilters}
+                sortStarsRef={this.sortStarsRef}
+                sortLanguageRef={this.sortLanguageRef}
+                copyGitUrl={this.copyGitUrl}
+                noLeftRepo={this.state.noLeftRepo}
+                fetchMoreRepo={this.fetchMoreRepo}
+                loadingMoreRepos={this.state.loadingMoreRepos}
+              />
+            )}
+          </section>
         )}
-      </section>
+      </ThemeConsumer>
     );
   }
 }
