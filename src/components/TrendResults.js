@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RepoCardGrid from './RepoCardGrid';
 import UserCardGrid from './UserCardGrid';
+import Loading from './Loading';
 
 export default class Results extends Component {
   static propTypes = {
@@ -29,12 +30,12 @@ export default class Results extends Component {
           repoData?.[selectedDate]?.[selectedLanguage] ? (
             <RepoCardGrid repos={repoData[selectedDate][selectedLanguage]} />
           ) : (
-            'Loading'
+            <Loading text='Fetching trending repos' />
           )
         ) : devData?.[selectedDate]?.[selectedLanguage] ? (
           <UserCardGrid devs={devData[selectedDate][selectedLanguage]} />
         ) : (
-          'Loading'
+          <Loading text='Fetching trending devs' />
         )}
       </section>
     );

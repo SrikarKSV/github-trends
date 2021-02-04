@@ -14,6 +14,7 @@ import {
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import UserRepoGrid from './UserRepoGrid';
 import { filterRepoData, getUniqueLanguages } from '../utils/utils';
+import Loading from './Loading';
 
 function UserBio({ userProfile }) {
   return (
@@ -365,7 +366,7 @@ class UserSearch extends Component {
           <button type='submit'>Search</button>
         </form>
 
-        {this.state.loading && 'Loading'}
+        {this.state.loading && <Loading text="Getting user's profile" />}
 
         {this.isDetailLoaded() && (
           <UserDetail
