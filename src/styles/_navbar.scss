@@ -35,6 +35,18 @@ header {
       -webkit-text-fill-color: transparent;
       background-size: 100% 200%;
 
+      &.light {
+        background: linear-gradient(
+          to bottom,
+          var(--dark-bg),
+          var(--dark-bg) 50%,
+          var(--dark-blue) 50%
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+        background-size: 100% 200%;
+      }
+
       &.active-nav {
         background: var(--dark-blue);
         background-clip: text;
@@ -56,6 +68,10 @@ header {
     cursor: pointer;
     transition: transform 0.3s linear;
     position: relative;
+
+    &.light {
+      color: black;
+    }
   }
 
   .theme-switch:hover {

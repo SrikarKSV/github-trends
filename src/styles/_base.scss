@@ -21,6 +21,7 @@ body {
 }
 
 :root {
+  --black: #000;
   --dark-bg: #0e141b;
   --red: #e60067;
   --dark-blue: #5773ff;
@@ -100,6 +101,11 @@ ul {
 
 .bg-dark {
   background-color: var(--dark-bg);
+  min-height: 100vh;
+}
+
+.bg-light {
+  background-color: var(--white);
   min-height: 100vh;
 }
 

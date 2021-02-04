@@ -3,6 +3,10 @@
     text-align: center;
     font-weight: 300;
     margin: 3rem 0;
+
+    &.light {
+      color: var(--black);
+    }
   }
 
   .repo-cards-container,
@@ -39,6 +43,10 @@
 
           &.user-card__name:hover {
             color: var(--red);
+
+            &.light {
+              color: var(--white);
+            }
           }
         }
       }
@@ -70,6 +78,15 @@
       margin-bottom: 0;
     }
 
+    .user-card {
+      background: var(--card-bg);
+
+      &.light {
+        background: var(--light-grey);
+        color: var(--black);
+      }
+    }
+
     .popular-repo {
       transition: all 0.3s ease-in-out;
       display: inline-block;
@@ -77,6 +94,10 @@
       &:hover {
         transform: translateY(-3px);
         color: var(--light-blue);
+
+        &.light {
+          color: var(--white);
+        }
       }
     }
   }

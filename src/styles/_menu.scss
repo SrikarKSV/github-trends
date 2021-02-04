@@ -2,6 +2,10 @@
   width: 95%;
   margin: auto;
 
+  &.light {
+    color: var(--black);
+  }
+
   &__tagline {
     background: var(--dark-grey);
     color: var(--dark-blue);
@@ -10,6 +14,10 @@
     margin: 2rem auto 1.38rem;
     padding: 2px;
     border-radius: var(--border-radius);
+
+    &.light {
+      background: var(--grey);
+    }
   }
 
   .trend-select {
