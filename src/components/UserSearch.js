@@ -105,6 +105,7 @@ function UserDetail({
   clearFilters,
   sortStarsRef,
   sortLanguageRef,
+  copyGitUrl,
 }) {
   return (
     <>
@@ -159,7 +160,11 @@ function UserDetail({
 
             <div className='user-repo-detail-grid'>
               {userRepoDetail.map((userRepo) => (
-                <UserRepoGrid key={userRepo.id} userRepo={userRepo} />
+                <UserRepoGrid
+                  key={userRepo.id}
+                  userRepo={userRepo}
+                  copyGitUrl={copyGitUrl}
+                />
               ))}
             </div>
           </div>
@@ -235,6 +240,16 @@ class UserSearch extends Component {
       },
       () => this.filterRepos()
     );
+  };
+
+  copyGitUrl = async (event, url) => {
+    await navigator.clipboard.writeText(url);
+    event.target.innerText = 'Copied!';
+    event.target.style.background = '#55c57a';
+    setTimeout(() => {
+      event.target.innerText = 'Clone repo';
+      event.target.style.background = '#e60067';
+    }, 2000);
   };
 
   clearFilters = () => {
@@ -315,6 +330,7 @@ class UserSearch extends Component {
             clearFilters={this.clearFilters}
             sortStarsRef={this.sortStarsRef}
             sortLanguageRef={this.sortLanguageRef}
+            copyGitUrl={this.copyGitUrl}
           />
         )}
       </section>

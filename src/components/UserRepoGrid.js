@@ -5,7 +5,7 @@ import { formatDate } from '../utils/utils';
 import languages from '../data/githubLanguages';
 import { faCodeBranch, faStar } from '@fortawesome/free-solid-svg-icons';
 
-function UserRepoGrid({ userRepo }) {
+function UserRepoGrid({ userRepo, copyGitUrl }) {
   return (
     <article
       style={
@@ -49,6 +49,9 @@ function UserRepoGrid({ userRepo }) {
         )}
         <li>Open issues : {userRepo.openIssues}</li>
       </ul>
+      <button onClick={(e) => copyGitUrl(e, userRepo.cloneURL)}>
+        Clone repo
+      </button>
     </article>
   );
 }
