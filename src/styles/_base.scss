@@ -27,6 +27,7 @@ body {
   --light-blue: #55abd6;
   --dull-blue: #66aacc;
   --grey: #ebebeb;
+  --light-grey: #9ca8b4;
   --dark-grey: #1f2932;
   --card-bg: #151f28;
   --green: #55c57a;
@@ -100,4 +101,8 @@ ul {
 .bg-dark {
   background-color: var(--dark-bg);
   min-height: 100vh;
+}
+
+article.javascript {
+  color: var(--dark-bg);
 }

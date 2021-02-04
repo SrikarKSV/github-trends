@@ -13,6 +13,7 @@ function UserRepoGrid({ userRepo, copyGitUrl }) {
           ? { background: languages[userRepo.language].color }
           : { background: '#151f28' }
       }
+      className={userRepo.language === 'JavaScript' ? 'javascript' : null}
     >
       {userRepo.isForked && <span className='forked'>Forked</span>}
       <div className='repo-stars-forks'>
