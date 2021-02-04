@@ -6,16 +6,19 @@ export function formatDate(date) {
 }
 
 export function getUniqueLanguages(repos) {
-  return Array.from(
-    new Set(
-      repos.map((repo) => {
-        if (!repo.language) {
-          return 'No language used';
-        }
-        return repo.language;
-      })
-    )
-  );
+  // If the username does not exist then return the string back
+  return Array.isArray(repos)
+    ? Array.from(
+        new Set(
+          repos.map((repo) => {
+            if (!repo.language) {
+              return 'No language used';
+            }
+            return repo.language;
+          })
+        )
+      )
+    : repos;
 }
 
 export function filterRepoData(stars, language, repos) {
