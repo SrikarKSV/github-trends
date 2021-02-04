@@ -8,6 +8,7 @@ import { getUserDetails } from '../utils/fetchData';
 import {
   faBriefcase,
   faGlobe,
+  faInfoCircle,
   faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -16,10 +17,12 @@ import { filterRepoData, getUniqueLanguages } from '../utils/utils';
 
 function UserBio({ userProfile }) {
   return (
-    <>
+    <div className='user-bio'>
       {userProfile.bio && (
         <p>
-          <span className='bold'>Bio :</span>
+          <span className='bold'>
+            Bio <FontAwesomeIcon size='1x' icon={faInfoCircle} /> :
+          </span>
           {userProfile.bio}
         </p>
       )}
@@ -37,7 +40,17 @@ function UserBio({ userProfile }) {
             Website
             <FontAwesomeIcon size='1x' icon={faGlobe} />:
           </span>
-          {userProfile.website}
+          <a
+            href={
+              userProfile.website.slice(0, 8) === 'https://'
+                ? userProfile.website
+                : `https://${userProfile.website}`
+            }
+            target='_blank'
+            rel='noreferrer'
+          >
+            {userProfile.website}
+          </a>
         </p>
       )}
       {userProfile.location && (
@@ -54,10 +67,26 @@ function UserBio({ userProfile }) {
           <span className='bold'>
             Twitter <FontAwesomeIcon size='1x' icon={faTwitter} /> :
           </span>
-          {userProfile.twitterUsername}
+          <a
+            href={`https://twitter.com/${userProfile.twitterUsername}`}
+            target='_blank'
+            rel='noreferrer'
+          >
+            @{userProfile.twitterUsername}
+          </a>
         </p>
       )}
-    </>
+      <div className='follow-stats'>
+        <p>
+          <span className='bold'>Followers :</span>
+          {userProfile.followers}
+        </p>
+        <p>
+          <span className='bold'>Following :</span>
+          {userProfile.following}
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -83,49 +112,46 @@ function UserDetail({
         <section className='user-detail-container'>
           <a href={userProfile.profileLink} target='_blank' rel='noreferrer'>
             <img
-              src={userProfile.avatarLink}
+              src={`${userProfile.avatarLink}&s=200`}
               alt={`Avatar of ${userProfile.username}`}
             />
           </a>
           <h4>{userProfile.fullName}</h4>
           <p>{userProfile.username}</p>
           <UserBio userProfile={userProfile} />
-          <p>
-            <span className='bold'>Followers :</span>
-            {userProfile.followers}
-            <span className='bold'>Following :</span>
-            {userProfile.following}
-          </p>
-
           <div className='user-repo-detail'>
-            <h5>Repositories</h5>
-            <p>Sort By: </p>
-            <div>
-              <label htmlFor='stars'>Stars :</label>
-              <select
-                ref={sortStarsRef}
-                name='stars'
-                id='stars'
-                onChange={setSortStars}
-              >
-                <option value=''>Not Set</option>
-                <option value='asc'>Ascending</option>
-                <option value='desc'>Descending</option>
-              </select>
-              <label htmlFor='language'>Language: </label>
-              <select
-                ref={sortLanguageRef}
-                name='language'
-                id='language'
-                onChange={setSortLanguage}
-              >
-                <option value=''>Any</option>
-                {allLanguages.map((language) => (
-                  <option key={language} value={language}>
-                    {language}
-                  </option>
-                ))}
-              </select>
+            <h5>Repositories ({userProfile.noOfRepos})</h5>
+            <p className='user-repo-detail__sort-by'>Sort By: </p>
+            <div className='user-repo-detail__filters'>
+              <div>
+                <label htmlFor='stars'>Stars :</label>
+                <select
+                  ref={sortStarsRef}
+                  name='stars'
+                  id='stars'
+                  onChange={setSortStars}
+                >
+                  <option value=''>Not Set</option>
+                  <option value='asc'>Ascending</option>
+                  <option value='desc'>Descending</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor='language'>Language: </label>
+                <select
+                  ref={sortLanguageRef}
+                  name='language'
+                  id='language'
+                  onChange={setSortLanguage}
+                >
+                  <option value=''>Any</option>
+                  {allLanguages.map((language) => (
+                    <option key={language} value={language}>
+                      {language}
+                    </option>
+                  ))}
+                </select>
+              </div>
               {sortStars || sortLanguage ? (
                 <button onClick={clearFilters}>Clear Filters</button>
               ) : null}
@@ -262,11 +288,16 @@ class UserSearch extends Component {
 
   render() {
     return (
-      <section>
+      <section className='user-search-container'>
         <h3>Explore GitHub user profile</h3>
-        <form action='#' method='get' onSubmit={this.handleSubmit}>
+        <form
+          className='user-search-form'
+          action='#'
+          method='get'
+          onSubmit={this.handleSubmit}
+        >
           <label htmlFor='username'>Username</label>
-          <input type='text' name='username' id='username' />
+          <input type='search' name='username' id='username' />
           <button type='submit'>Search</button>
         </form>
 
