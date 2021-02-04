@@ -44,7 +44,9 @@ export default class Menu extends Component {
 
     return (
       <section className='menu-container'>
-        <h4>Find the trending repositories or developers on GitHub!</h4>
+        <h4 className='menu-container__tagline'>
+          Find the trending repositories or developers on GitHub!
+        </h4>
         <div className='trend-select'>
           {trendingModes.map((trendingMode) => (
             <button
@@ -63,7 +65,7 @@ export default class Menu extends Component {
         </div>
         <div className='menu-options'>
           <div className='menu-options__languages'>
-            <p>Languages :</p>
+            <p className='menu-options__menu-label'>Languages :</p>
             <ul>
               {popularLanguages.map((lang) => (
                 <li key={lang}>
@@ -106,7 +108,7 @@ export default class Menu extends Component {
             </ul>
           </div>
           <div className='menu-options__date-range'>
-            <p>Data range :</p>
+            <p className='menu-options__menu-label'>Data range :</p>
             <ul>
               {Object.keys(dateRange).map((date) => (
                 <li key={date}>

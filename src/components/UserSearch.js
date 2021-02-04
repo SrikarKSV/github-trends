@@ -160,7 +160,9 @@ function UserDetail({
                 </select>
               </div>
               {sortStars || sortLanguage ? (
-                <button onClick={clearFilters}>Clear Filters</button>
+                <button className='clear-filter' onClick={clearFilters}>
+                  Clear Filters
+                </button>
               ) : null}
             </div>
 
@@ -197,14 +199,8 @@ UserDetail.propTypes = {
   sortStars: PropTypes.string.isRequired,
   sortLanguage: PropTypes.string.isRequired,
   clearFilters: PropTypes.func.isRequired,
-  sortStarsRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.elementType }),
-  ]),
-  sortLanguageRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.elementType }),
-  ]),
+  sortStarsRef: PropTypes.object.isRequired,
+  sortLanguageRef: PropTypes.object.isRequired,
   copyGitUrl: PropTypes.func.isRequired,
   noLeftRepo: PropTypes.number.isRequired,
   fetchMoreRepo: PropTypes.func.isRequired,

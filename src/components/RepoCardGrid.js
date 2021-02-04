@@ -14,7 +14,9 @@ function RepoCard({ repo }) {
           ? { background: languages[repo.language].color }
           : { background: '#151f28' }
       }
-      className={repo.language === 'JavaScript' ? 'javascript' : null}
+      className={`repo-card ${
+        repo.language === 'JavaScript' ? 'javascript' : ''
+      }`}
     >
       <img
         className='dev-avatar'
