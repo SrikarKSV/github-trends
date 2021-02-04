@@ -74,6 +74,8 @@ function UserDetail({
   sortStars,
   sortLanguage,
   clearFilters,
+  sortStarsRef,
+  sortLanguageRef,
 }) {
   return (
     <>
@@ -100,13 +102,23 @@ function UserDetail({
             <p>Sort By: </p>
             <div>
               <label htmlFor='stars'>Stars :</label>
-              <select name='stars' id='stars' onChange={setSortStars}>
+              <select
+                ref={sortStarsRef}
+                name='stars'
+                id='stars'
+                onChange={setSortStars}
+              >
                 <option value=''>Not Set</option>
                 <option value='asc'>Ascending</option>
                 <option value='desc'>Descending</option>
               </select>
               <label htmlFor='language'>Language: </label>
-              <select name='language' id='language' onChange={setSortLanguage}>
+              <select
+                ref={sortLanguageRef}
+                name='language'
+                id='language'
+                onChange={setSortLanguage}
+              >
                 <option value=''>Any</option>
                 {allLanguages.map((language) => (
                   <option key={language} value={language}>
@@ -156,6 +168,9 @@ class UserSearch extends Component {
     sortLanguage: '',
   };
 
+  sortStarsRef = React.createRef();
+  sortLanguageRef = React.createRef();
+
   signal = axios.CancelToken.source();
 
   updateUserDetails = (username) => {
@@ -197,6 +212,8 @@ class UserSearch extends Component {
   };
 
   clearFilters = () => {
+    this.sortStarsRef.current.selectedIndex = 0;
+    this.sortLanguageRef.current.selectedIndex = 0;
     this.setState(
       {
         sortLanguage: '',
@@ -265,6 +282,8 @@ class UserSearch extends Component {
             sortStars={this.state.sortStars}
             sortLanguage={this.state.sortLanguage}
             clearFilters={this.clearFilters}
+            sortStarsRef={this.sortStarsRef}
+            sortLanguageRef={this.sortLanguageRef}
           />
         )}
       </section>
