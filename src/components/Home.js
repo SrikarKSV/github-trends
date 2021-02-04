@@ -10,6 +10,7 @@ export default class Home extends Component {
     selectedDate: 'daily',
     repoData: {},
     devData: {},
+    loadingData: false,
   };
   signal = axios.CancelToken.source();
 
@@ -66,10 +67,17 @@ export default class Home extends Component {
     }));
   };
 
+  setLoadingDataState = (bool) => {
+    this.setState({
+      loadingData: bool,
+    });
+  };
+
   setLanguageState = (data) => {
     this.state.mode === 'repos'
       ? this.setRepoLanguageState(data)
       : this.setDevLanguageState(data);
+    this.setLoadingDataState(false);
   };
 
   fetchModeData = async (func, url) => {
@@ -87,7 +95,7 @@ export default class Home extends Component {
       this.setLanguageState(data);
     } catch (err) {
       if (axios.isCancel(err)) {
-        console.log('Error: ', err.message); // => prints: Api is being canceled
+        console.log('Error: ', err.message);
       } else if (err.response.status === 404) {
         this.setLanguageState('No trending repo/user found');
       } else {
@@ -112,6 +120,7 @@ export default class Home extends Component {
         this.state.selectedLanguage
       ]
     ) {
+      this.setLoadingDataState(true);
       this.fetchModeData('getTrendingRepo', url);
     } else if (
       mode === 'devs' &&
@@ -119,6 +128,7 @@ export default class Home extends Component {
         this.state.selectedLanguage
       ]
     ) {
+      this.setLoadingDataState(true);
       // Updating link for trending devs
       url = url.replace(/\.com\/trending/, '.com/trending/developers');
       this.fetchModeData('getTrendingDev', url);
@@ -143,6 +153,7 @@ export default class Home extends Component {
           updateDate={this.updateSelectedDate}
           selectedLanguage={this.state.selectedLanguage}
           selectedDate={this.state.selectedDate}
+          loadingData={this.state.loadingData}
         />
         <Results
           mode={this.state.mode}

@@ -12,6 +12,10 @@ export default class Menu extends Component {
     updateLanguage: PropTypes.func.isRequired,
     updateDate: PropTypes.func.isRequired,
     updateMode: PropTypes.func.isRequired,
+    mode: PropTypes.string.isRequired,
+    selectedLanguage: PropTypes.string.isRequired,
+    selectedDate: PropTypes.string.isRequired,
+    loadingData: PropTypes.bool.isRequired,
   };
   tagAudio = React.createRef();
 
@@ -28,6 +32,7 @@ export default class Menu extends Component {
       mode,
       selectedLanguage,
       selectedDate,
+      loadingData,
     } = this.props;
     const popularLanguages = ['Any', 'Python', 'JavaScript', 'Go', 'Css'];
     const trendingModes = ['Repos', 'Devs'];
@@ -50,6 +55,7 @@ export default class Menu extends Component {
                   : null
               }
               onClick={() => updateMode(trendingMode.toLowerCase())}
+              disabled={loadingData ? true : false}
             >
               {trendingMode}
             </button>
