@@ -59,6 +59,7 @@ function UserRepoGrid({ userRepo, copyGitUrl }) {
 
 UserRepoGrid.propTypes = {
   userRepo: PropTypes.object.isRequired,
+  copyGitUrl: PropTypes.func.isRequired,
 };
 
 export default UserRepoGrid;

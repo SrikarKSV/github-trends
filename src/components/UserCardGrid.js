@@ -42,9 +42,13 @@ function UserCard({ dev }) {
   );
 }
 
+UserCard.propTypes = {
+  devs: PropTypes.object.isRequired,
+};
+
 export default class UserCardGrid extends Component {
   static propTypes = {
-    repos: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+    repos: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
   };
 
   render() {

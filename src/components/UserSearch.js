@@ -108,6 +108,7 @@ function UserDetail({
   copyGitUrl,
   noLeftRepo,
   fetchMoreRepo,
+  loadingMoreRepos,
 }) {
   return (
     <>
@@ -133,6 +134,7 @@ function UserDetail({
                   name='stars'
                   id='stars'
                   onChange={setSortStars}
+                  style={sortStars ? { background: '#55c57a' } : null}
                 >
                   <option value=''>Not Set</option>
                   <option value='asc'>Ascending</option>
@@ -146,8 +148,9 @@ function UserDetail({
                   name='language'
                   id='language'
                   onChange={setSortLanguage}
+                  style={sortLanguage ? { background: '#55c57a' } : null}
                 >
-                  <option value=''>Any</option>
+                  <option value=''>All</option>
                   {allLanguages.map((language) => (
                     <option key={language} value={language}>
                       {language}
@@ -171,7 +174,7 @@ function UserDetail({
             </div>
             {noLeftRepo > 0 && (
               <button className='load-more' onClick={fetchMoreRepo}>
-                Load More
+                {loadingMoreRepos ? 'Loading..' : 'Load More'}
               </button>
             )}
           </div>
@@ -193,11 +196,24 @@ UserDetail.propTypes = {
   sortStars: PropTypes.string.isRequired,
   sortLanguage: PropTypes.string.isRequired,
   clearFilters: PropTypes.func.isRequired,
+  sortStarsRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.elementType }),
+  ]),
+  sortLanguageRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.elementType }),
+  ]),
+  copyGitUrl: PropTypes.func.isRequired,
+  noLeftRepo: PropTypes.number.isRequired,
+  fetchMoreRepo: PropTypes.func.isRequired,
+  loadingMoreRepos: PropTypes.bool.isRequired,
 };
 
 class UserSearch extends Component {
   state = {
     loading: false,
+    loadingMoreRepos: false,
     username: '',
     userProfile: {},
     userRepoDetailOriginal: [],
@@ -298,6 +314,9 @@ class UserSearch extends Component {
   };
 
   fetchMoreRepo = () => {
+    this.setState({
+      loadingMoreRepos: true,
+    });
     getMoreRepo(this.state.userProfile.username, this.state.page, this.signal)
       .then((repos) => {
         console.log(repos);
@@ -306,6 +325,7 @@ class UserSearch extends Component {
             userRepoDetailOriginal: [...userRepoDetailOriginal, ...repos],
             page: page + 1,
             noLeftRepo: noLeftRepo - 100,
+            loadingMoreRepos: false,
           }),
           () => this.filterRepos()
         );
@@ -362,6 +382,7 @@ class UserSearch extends Component {
             copyGitUrl={this.copyGitUrl}
             noLeftRepo={this.state.noLeftRepo}
             fetchMoreRepo={this.fetchMoreRepo}
+            loadingMoreRepos={this.state.loadingMoreRepos}
           />
         )}
       </section>
