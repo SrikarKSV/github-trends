@@ -125,6 +125,13 @@
         position: relative;
         border-radius: var(--border-radius);
 
+        button {
+          margin-top: 10px;
+          font-size: 1.2rem;
+          background-color: var(--red);
+          padding: 0.2em 0.5em;
+        }
+
         .repo-stars-forks {
           position: absolute;
           top: 10px;
