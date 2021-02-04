@@ -3,20 +3,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCodeBranch, faStar } from '@fortawesome/free-solid-svg-icons';
 import languages from '../data/githubLanguages';
-
-function formatTitle(title) {
-  const [author, repoName] = title.split('/');
-  if (repoName.length > 10) {
-    return (
-      <>
-        <p>{author}/</p>
-        <p>{repoName}</p>
-      </>
-    );
-  } else {
-    return title;
-  }
-}
+import { formatTextLength, formatTitle } from '../utils/utils';
 
 function RepoCard({ repo }) {
   return (
@@ -44,12 +31,8 @@ function RepoCard({ repo }) {
             {formatTitle(repo.title)}
           </a>
         </h4>
-        <p>
-          {repo.description?.length > 90
-            ? repo.description.slice(0, 90) + '...'
-            : repo.description}
-        </p>
-        <p>Language : {repo?.language ? repo?.language : 'No language used'}</p>
+        <p>{formatTextLength(repo.popularRepoDescription, 90)}</p>
+        <p>Language : {repo?.language ? repo.language : 'No language used'}</p>
         <p>
           <span>
             <FontAwesomeIcon icon={faStar} size='1x' />

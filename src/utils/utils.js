@@ -37,3 +37,21 @@ export function filterRepoData(stars, language, repos) {
   }
   return newRepos;
 }
+
+export function formatTextLength(text, length) {
+  return text?.length > length ? text.slice(0, length) + '...' : text;
+}
+
+export function formatTitle(title) {
+  const [author, repoName] = title.split('/');
+  if (repoName.length > 10) {
+    return (
+      <>
+        <p>{author}/</p>
+        <p>{repoName}</p>
+      </>
+    );
+  } else {
+    return title;
+  }
+}

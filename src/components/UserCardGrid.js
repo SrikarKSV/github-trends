@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { formatTextLength } from '../utils/utils';
 
 function UserCard({ dev }) {
   return (
@@ -32,23 +33,19 @@ function UserCard({ dev }) {
             {dev.popularRepo}
           </a>
         </p>
-        <p>
-          {dev.popularRepoDescription?.length > 90
-            ? dev.popularRepoDescription.slice(0, 90) + '...'
-            : dev.popularRepoDescription}
-        </p>
+        <p>{formatTextLength(dev.popularRepoDescription, 90)}</p>
       </div>
     </article>
   );
 }
 
 UserCard.propTypes = {
-  devs: PropTypes.object.isRequired,
+  devs: PropTypes.object,
 };
 
 export default class UserCardGrid extends Component {
   static propTypes = {
-    repos: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+    repos: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   };
 
   render() {
