@@ -115,14 +115,14 @@ function UserDetail({
     <>
       {Array.isArray(userRepoDetail) ? (
         <section className='user-detail-container'>
+          <img
+            src={`${userProfile.avatarLink}&s=200`}
+            alt={`Avatar of ${userProfile.username}`}
+          />
           <a href={userProfile.profileLink} target='_blank' rel='noreferrer'>
-            <img
-              src={`${userProfile.avatarLink}&s=200`}
-              alt={`Avatar of ${userProfile.username}`}
-            />
+            <h4>{userProfile.fullName}</h4>
           </a>
-          <h4>{userProfile.fullName}</h4>
-          <p>{userProfile.username}</p>
+          <p className='username'>{userProfile.username}</p>
           <UserBio userProfile={userProfile} />
           <div className='user-repo-detail'>
             <h5>Repositories ({userProfile.noOfRepos})</h5>

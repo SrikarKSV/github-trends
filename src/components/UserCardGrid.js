@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatTextLength } from '../utils/utils';
+import { Link } from 'react-router-dom';
 
 function UserCard({ dev }) {
   return (
@@ -12,14 +13,14 @@ function UserCard({ dev }) {
       />
       <div>
         <h4>
-          <a
+          <Link
             className='user-card__name'
-            href={`https://github.com${dev.profileLink}`}
-            target='_blank'
-            rel='noreferrer'
+            to={`/user-search?username=${dev.profileLink
+              .replace(/\//, '')
+              .trim()}`}
           >
             {dev.fullName}
-          </a>
+          </Link>
         </h4>
         <p>{dev.userName}</p>
         <p>

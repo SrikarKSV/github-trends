@@ -34,6 +34,7 @@
 
     img {
       border-radius: 20px;
+      width: 200px;
     }
 
     h4 {
@@ -42,7 +43,7 @@
     }
 
     // Selecting the username
-    h4 + p {
+    .username {
       margin-top: -0.7rem;
       font-size: 1.3rem;
       color: var(--dull-blue);

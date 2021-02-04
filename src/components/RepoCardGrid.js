@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCodeBranch, faStar } from '@fortawesome/free-solid-svg-icons';
 import languages from '../data/githubLanguages';
 import { formatTextLength, formatTitle } from '../utils/utils';
+import { Link } from 'react-router-dom';
 
 function RepoCard({ repo }) {
   return (
@@ -18,15 +19,17 @@ function RepoCard({ repo }) {
         repo.language === 'JavaScript' ? 'javascript' : ''
       }`}
     >
-      <img
-        className='dev-avatar'
-        src={
-          repo?.authorImg
-            ? repo.authorImg
-            : 'https://avatars.githubusercontent.com/u/649246'
-        }
-        alt={repo.title}
-      />
+      <Link to={`/user-search?username=${repo.author}`}>
+        <img
+          className='dev-avatar'
+          src={
+            repo?.authorImg
+              ? repo.authorImg
+              : 'https://avatars.githubusercontent.com/u/649246'
+          }
+          alt={repo.title}
+        />
+      </Link>
       <div className='repo-cards-container__info'>
         <h4>
           <a href={repo.repoLink} target='_blank' rel='noreferrer'>
