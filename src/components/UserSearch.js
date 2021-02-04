@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import queryString from 'query-string';
 import { withRouter } from 'react-router';
-import { getUserDetails } from '../utils/fetchData';
+import { getMoreRepo, getUserDetails } from '../utils/fetchData';
 import {
   faBriefcase,
   faGlobe,
@@ -106,6 +106,8 @@ function UserDetail({
   sortStarsRef,
   sortLanguageRef,
   copyGitUrl,
+  noLeftRepo,
+  fetchMoreRepo,
 }) {
   return (
     <>
@@ -167,6 +169,11 @@ function UserDetail({
                 />
               ))}
             </div>
+            {noLeftRepo > 0 && (
+              <button className='load-more' onClick={fetchMoreRepo}>
+                Load More
+              </button>
+            )}
           </div>
         </section>
       ) : (
@@ -197,6 +204,8 @@ class UserSearch extends Component {
     userRepoMutated: [],
     sortStars: '',
     sortLanguage: '',
+    noLeftRepo: 0,
+    page: 1,
   };
 
   sortStarsRef = React.createRef();
@@ -212,6 +221,8 @@ class UserSearch extends Component {
     getUserDetails(username, this.signal)
       .then(({ profile, repo: repos }) => {
         this.setState({
+          noLeftRepo: profile.noOfRepos - 100,
+          page: 2,
           username,
           userProfile: profile,
           userRepoDetailOriginal: repos,
@@ -286,6 +297,24 @@ class UserSearch extends Component {
     e.target.reset();
   };
 
+  fetchMoreRepo = () => {
+    getMoreRepo(this.state.userProfile.username, this.state.page, this.signal)
+      .then((repos) => {
+        console.log(repos);
+        this.setState(
+          ({ page, noLeftRepo, userRepoDetailOriginal }) => ({
+            userRepoDetailOriginal: [...userRepoDetailOriginal, ...repos],
+            page: page + 1,
+            noLeftRepo: noLeftRepo - 100,
+          }),
+          () => this.filterRepos()
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   filterRepos = () => {
     const repos = filterRepoData(
       this.state.sortStars,
@@ -331,6 +360,8 @@ class UserSearch extends Component {
             sortStarsRef={this.sortStarsRef}
             sortLanguageRef={this.sortLanguageRef}
             copyGitUrl={this.copyGitUrl}
+            noLeftRepo={this.state.noLeftRepo}
+            fetchMoreRepo={this.fetchMoreRepo}
           />
         )}
       </section>

@@ -14,6 +14,7 @@ function formatRepoDetails(data) {
       createdAt: repo.created_at,
       homepage: repo.homepage,
       openIssues: repo.open_issues,
+      cloneURL: repo.clone_url,
     };
   });
 
@@ -38,7 +39,6 @@ function formatUserDetails(data) {
 }
 
 function fetchUserDetails(username, url, signal, mode) {
-  console.log(signal.token);
   return axios
     .get(url, { cancelToken: signal.token })
     .then(({ data }) => {
@@ -67,4 +67,13 @@ export function getUserDetails(username, signal, page = 1) {
   ]).then(([profile, repo]) => {
     return { profile, repo };
   });
+}
+
+export function getMoreRepo(username, page, signal) {
+  const userRepoURL = `https://api.github.com/users/${username}/repos?per_page=100&type=owner&sort=updated&page=${page}`;
+  return fetchUserDetails(username, userRepoURL, signal, 'repo').then(
+    (repos) => {
+      return repos;
+    }
+  );
 }
