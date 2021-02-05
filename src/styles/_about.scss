@@ -1,0 +1,47 @@
+.about-container {
+  &.light {
+    color: var(--black);
+  }
+
+  .no-break {
+    white-space: nowrap;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  a {
+    position: relative;
+  }
+
+  a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    left: 0;
+    height: 3px;
+    background: var(--red);
+    transition: transform 0.3s;
+  }
+
+  a:hover::after {
+    transform: translateY(3px);
+  }
+
+  ul {
+    list-style-type: circle;
+    margin-left: 1rem;
+
+    li {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media only screen and (max-width: 28.125em) {
+    h3 {
+      font-size: 2rem;
+    }
+  }
+}

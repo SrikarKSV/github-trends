@@ -167,6 +167,15 @@
         overflow-wrap: break-word;
         overflow: hidden;
 
+        a {
+          display: inline-block;
+          transition: transform 0.3s;
+
+          &:hover {
+            transform: translateY(-3px);
+          }
+        }
+
         button {
           margin-top: 10px;
           font-size: 1.2rem;
