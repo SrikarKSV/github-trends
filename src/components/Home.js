@@ -83,7 +83,7 @@ export default class Home extends Component {
   fetchModeData = async (func, url) => {
     try {
       const res = await axios.post(
-        `/api/${func}`,
+        `/.netlify/functions/${func}`,
         {
           url,
         },
