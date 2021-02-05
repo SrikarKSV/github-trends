@@ -231,6 +231,7 @@ class UserSearch extends Component {
     sortLanguage: '',
     noLeftRepo: 0,
     page: 1,
+    searchInput: '',
   };
 
   sortStarsRef = React.createRef();
@@ -359,6 +360,12 @@ class UserSearch extends Component {
     return this.state.username && !this.state.loading;
   };
 
+  handleSearchInput = (e) => {
+    this.setState({
+      searchInput: e.target.value,
+    });
+  };
+
   render() {
     return (
       <ThemeConsumer>
@@ -372,7 +379,13 @@ class UserSearch extends Component {
               onSubmit={this.handleSubmit}
             >
               <label htmlFor='username'>Username</label>
-              <input type='search' name='username' id='username' />
+              <input
+                value={this.state.searchInput}
+                type='search'
+                name='username'
+                id='username'
+                onChange={this.handleSearchInput}
+              />
               <button type='submit'>Search</button>
             </form>
 
