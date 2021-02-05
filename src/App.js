@@ -8,6 +8,7 @@ import Loading from './components/Loading';
 const Home = React.lazy(() => import('./components/Home'));
 const UserSearch = React.lazy(() => import('./components/UserSearch'));
 const NotFound = React.lazy(() => import('./components/NotFound'));
+const About = React.lazy(() => import('./components/About'));
 
 export default class App extends Component {
   state = {
@@ -31,6 +32,7 @@ export default class App extends Component {
                   <Switch>
                     <Route exact path='/' component={Home} />
                     <Route path='/user-search' component={UserSearch} />
+                    <Route path='/about' component={About} />
                     <Route component={NotFound} />
                   </Switch>
                 </React.Suspense>

@@ -28,6 +28,15 @@ export default class Nav extends Component {
                       User Search
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      activeClassName='active-nav'
+                      className={`${theme}`}
+                      to='/about'
+                    >
+                      About
+                    </NavLink>
+                  </li>
                 </ul>
               </nav>
             </div>
