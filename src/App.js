@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Nav from './components/Nav';
 import Home from './components/Home';
 import UserSearch from './components/UserSearch';
+import NotFound from './components/NotFound';
 import './styles/main.scss';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from './contexts/theme';
@@ -27,6 +28,7 @@ export default class App extends Component {
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route path='/user-search' component={UserSearch} />
+                  <Route component={NotFound} />
                 </Switch>
               </main>
             </div>
