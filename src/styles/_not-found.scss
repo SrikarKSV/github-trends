@@ -1,0 +1,12 @@
+.not-found {
+  min-height: 15rem;
+  a {
+    background: var(--green);
+    padding: 5px;
+    border-radius: var(--border-radius);
+  }
+
+  &.light {
+    color: var(--black);
+  }
+}
