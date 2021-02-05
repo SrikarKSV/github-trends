@@ -320,7 +320,9 @@ class UserSearch extends Component {
       search: `?username=${e.target.username.value}`,
     });
     this.updateUserDetails(e.target.username.value);
-    e.target.reset();
+    this.setState({
+      searchInput: '',
+    });
   };
 
   fetchMoreRepo = () => {
