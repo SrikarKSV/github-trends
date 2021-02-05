@@ -36,7 +36,7 @@ function RepoCard({ repo }) {
             {formatTitle(repo.title)}
           </a>
         </h4>
-        <p>{formatTextLength(repo.popularRepoDescription, 90)}</p>
+        <p>{formatTextLength(repo.description, 90)}</p>
         <p>Language : {repo?.language ? repo.language : 'No language used'}</p>
         <p>
           <span>
