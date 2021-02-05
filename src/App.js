@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Nav from './components/Nav';
-import Home from './components/Home';
-import UserSearch from './components/UserSearch';
-import NotFound from './components/NotFound';
 import './styles/main.scss';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from './contexts/theme';
+import Loading from './components/Loading';
+
+const Home = React.lazy(() => import('./components/Home'));
+const UserSearch = React.lazy(() => import('./components/UserSearch'));
+const NotFound = React.lazy(() => import('./components/NotFound'));
 
 export default class App extends Component {
   state = {
@@ -25,11 +27,13 @@ export default class App extends Component {
             <div className='container'>
               <Nav />
               <main>
-                <Switch>
-                  <Route exact path='/' component={Home} />
-                  <Route path='/user-search' component={UserSearch} />
-                  <Route component={NotFound} />
-                </Switch>
+                <React.Suspense fallback={<Loading />}>
+                  <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route path='/user-search' component={UserSearch} />
+                    <Route component={NotFound} />
+                  </Switch>
+                </React.Suspense>
               </main>
             </div>
           </div>
