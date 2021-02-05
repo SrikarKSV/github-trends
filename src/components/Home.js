@@ -43,8 +43,8 @@ export default class Home extends Component {
     );
   };
 
-  setRepoLanguageState = (data) => {
-    this.setState(({ repoData, selectedDate, selectedLanguage }) => ({
+  setRepoLanguageState = (data, selectedDate, selectedLanguage) => {
+    this.setState(({ repoData }) => ({
       repoData: {
         ...repoData,
         [selectedDate]: {
@@ -55,8 +55,8 @@ export default class Home extends Component {
     }));
   };
 
-  setDevLanguageState = (data) => {
-    this.setState(({ devData, selectedDate, selectedLanguage }) => ({
+  setDevLanguageState = (data, selectedDate, selectedLanguage) => {
+    this.setState(({ devData }) => ({
       devData: {
         ...devData,
         [selectedDate]: {
@@ -73,14 +73,14 @@ export default class Home extends Component {
     });
   };
 
-  setLanguageState = (data) => {
+  setLanguageState = (data, selectedDate, selectedLanguage) => {
     this.state.mode === 'repos'
-      ? this.setRepoLanguageState(data)
-      : this.setDevLanguageState(data);
+      ? this.setRepoLanguageState(data, selectedDate, selectedLanguage)
+      : this.setDevLanguageState(data, selectedDate, selectedLanguage);
     this.setLoadingDataState(false);
   };
 
-  fetchModeData = async (func, url) => {
+  fetchModeData = async (func, url, selectedDate, selectedLanguage) => {
     try {
       const res = await axios.post(
         `/.netlify/functions/${func}`,
@@ -92,7 +92,7 @@ export default class Home extends Component {
         }
       );
       const data = await res.data;
-      this.setLanguageState(data);
+      this.setLanguageState(data, selectedDate, selectedLanguage);
     } catch (err) {
       if (axios.isCancel(err)) {
         console.log('Error: ', err.message);
@@ -112,6 +112,10 @@ export default class Home extends Component {
         ? ''
         : `/${this.state.selectedLanguage}`
     }?since=${this.state.selectedDate}`;
+    // SelectedDate and SelectedLanguage is saved
+    // If the user switches languages the data will be stored in appropriate langauge
+    const selectedDate = this.state.selectedDate;
+    const selectedLanguage = this.state.selectedLanguage;
 
     // Checking if the requested resource is already present or not
     if (
@@ -121,7 +125,12 @@ export default class Home extends Component {
       ]
     ) {
       this.setLoadingDataState(true);
-      this.fetchModeData('getTrendingRepo', url);
+      this.fetchModeData(
+        'getTrendingRepo',
+        url,
+        selectedDate,
+        selectedLanguage
+      );
     } else if (
       mode === 'devs' &&
       !this.state.devData?.[this.state.selectedDate]?.[
@@ -131,7 +140,7 @@ export default class Home extends Component {
       this.setLoadingDataState(true);
       // Updating link for trending devs
       url = url.replace(/\.com\/trending/, '.com/trending/developers');
-      this.fetchModeData('getTrendingDev', url);
+      this.fetchModeData('getTrendingDev', url, selectedDate, selectedLanguage);
     }
   };
 
