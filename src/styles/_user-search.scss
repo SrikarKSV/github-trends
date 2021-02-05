@@ -167,8 +167,12 @@
         overflow-wrap: break-word;
         overflow: hidden;
 
-        a {
+        .homepage a {
           display: inline-block;
+        }
+
+        a h5,
+        .homepage a {
           transition: transform 0.3s;
 
           &:hover {

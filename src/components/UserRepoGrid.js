@@ -41,7 +41,7 @@ function UserRepoGrid({ userRepo, copyGitUrl }) {
         </li>
         <li>Created on : {formatDate(userRepo.createdAt)}</li>
         {userRepo.homepage && (
-          <li>
+          <li className='homepage'>
             Homepage :{' '}
             <a target='_blank' rel='noreferrer' href={userRepo.homepage}>
               {userRepo.homepage}
