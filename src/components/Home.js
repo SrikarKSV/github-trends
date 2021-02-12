@@ -97,9 +97,17 @@ export default class Home extends Component {
       if (axios.isCancel(err)) {
         console.log('Error: ', err.message);
       } else if (err.response.status === 404) {
-        this.setLanguageState('No trending repo/user found');
+        this.setLanguageState(
+          'No trending repo/user found',
+          selectedDate,
+          selectedLanguage
+        );
       } else {
-        this.setLanguageState('Error: Try again later');
+        this.setLanguageState(
+          'Error: Try again later',
+          selectedDate,
+          selectedLanguage
+        );
       }
     }
   };
