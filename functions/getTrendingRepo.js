@@ -45,7 +45,9 @@ exports.handler = async (event) => {
 
       let authorImg = '';
 
-      let contributors = active.find('[data-hovercard-type="user"]').toArray();
+      let contributors = active
+        .find('span [data-hovercard-type="user"]')
+        .toArray();
       contributors = contributors
         .map((contributor, index) => {
           if (index === 0) {
