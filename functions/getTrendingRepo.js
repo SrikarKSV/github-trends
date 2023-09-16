@@ -17,7 +17,7 @@ exports.handler = async (event) => {
 
     const data = repos.map((repo, index) => {
       const active = $(repo);
-      const title = active.find('h1').text().replace(/\s/g, '');
+      const title = active.find('h2').text().replace(/\s/g, '');
       const author = title.split('/')[0];
       const repoName = title.split('/')[1];
 
@@ -26,7 +26,7 @@ exports.handler = async (event) => {
       const forkLink = `/${title.replace(
         / /g,
         ''
-      )}/network/members.${repoName}`;
+      )}/forks`;
 
       const repoLink = `https://github.com/${author}/${repoName}`;
       const description = active.find('p').text().trim() || null;
